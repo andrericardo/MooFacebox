@@ -58,13 +58,6 @@
 #facebox table {
     margin: auto;
     border-collapse: inherit;
-    border-spacing: 0;
-}
-
-#facebox table tr, #facebox table td {
-    margin: 0;
-    padding: 0;
-    border: 0;
 }
 
 #facebox table td {
@@ -77,7 +70,6 @@
 }
 
 #facebox .dialog-content .body {
-    padding: 10px 20px;
     background: #fff;
 }
 
@@ -136,3 +128,4 @@
     padding: 0;
 }
 
+#facebox .facebox_footer { background:#eee; border-top:1px #ccc solid; padding:10px; text-align:right; }
