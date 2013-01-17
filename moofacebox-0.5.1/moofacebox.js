@@ -1,6 +1,6 @@
 /*
  * mooFacebox
- * version: 0.5 (18/05/2011)
+ * version: 0.5.1 (16/01/2013)
  * @requires MooTools v1.3 or later
  *
  * Licensed under the MIT:
@@ -9,7 +9,10 @@
  *
  * Original Facebox (http://famspam.com/facebox) - Copyright since 2007 by Chris Wanstrath [ chris@ozmm.org ]
  * Original port (http://code.google.com/p/moofacebox/) - Copyright since 2008 by Augusto Becciu [ augusto@becciu.org ]
- * This version (https://github.com/carlosouro/MooFacebox) - Copyright since 2011 by Carlos Ouro [ carlos.ouro@9tree.net ]
+ * Carlos' version (https://github.com/carlosouro/MooFacebox) - Copyright since 2011 by Carlos Ouro [ carlos.ouro@9tree.net ]
+ * This version (https://github.com/andrericardo/MooFacebox) - Copyright since 2013 by André Ricardo [ andric87@gmail.com ]
+ * 
+ * WARNING: I advise only use this if you are stuck with MooTools and MooFacebox! I have found MooFacebox quite buggy and cumbersome 
  *
  * Usage:
  *

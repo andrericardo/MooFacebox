@@ -11,6 +11,8 @@
 * Carlos' version (https://github.com/carlosouro/MooFacebox) - Copyright since 2011 by Carlos Ouro [ carlos.ouro@9tree.net ]
 * This version (https://github.com/andrericardo/MooFacebox) - Copyright since 2013 by André Ricardo [ andric87@gmail.com ]
 *
+* WARNING: I advise only use this if you are stuck with MooTools and MooFacebox! I have found MooFacebox quite buggy and cumbersome
+*
 * Usage:
 *  
 *  window.addEvent('domready', function() {
