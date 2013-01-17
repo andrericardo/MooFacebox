@@ -12,7 +12,7 @@
  * This version (https://github.com/carlosouro/MooFacebox) - Copyright since 2011 by Carlos Ouro [ carlos.ouro@9tree.net ]
  *
  * Usage:
- *  
+ *
  *  window.addEvent('domready', function() {
  *      var myFacebox = new mooFacebox();
  *  });
@@ -74,12 +74,15 @@ var mooFacebox = new Class({
     loading: function() {
         if (this.faceboxEl.getElement('.loading')) return true;
 
-	this.faceboxEl.getElement('.drag_container').setStyles({position:'relative',left:0,top:0});
-        this.faceboxEl.getElement('.content').empty();
+		this.faceboxEl.getElement('.drag_container').setStyles({position:'relative',left:0,top:0});
 
+		// Firefox picks "dialog-content"
+        //this.faceboxEl.getElement('.content').empty();
+		this.faceboxEl.getElementsByClassName('content')[0].empty();
+		
         var bodyEl = this.faceboxEl.getElement('.body');
         bodyEl.getChildren().setStyle('display', 'none');
-        
+
         var loadingEl = new Element('div', {'class': 'loading'});
 
         bodyEl.adopt(loadingEl);
@@ -91,7 +94,7 @@ var mooFacebox = new Class({
         });
 
         $(document).addEvent('keydown', this.keydownHdlr);
-		
+
         this.fadeIn(this.faceboxEl, function(){
 			this.opened = true;
 			if (this.options.draggable == true) {
@@ -102,17 +105,20 @@ var mooFacebox = new Class({
 	        }
 		}.bind(this));
     },
-	
+
 	// 9Tree: close option added (not implemented for rel atributtes)
     reveal: function(data, klass, close) {
 		this.faceboxEl.getElement('.footer').setStyle('display', (close ? '' : 'none'));
-		
-        if (klass) this.faceboxEl.getElement('.content').addClass(klass);
-		
+
+        //if (klass) this.faceboxEl.getElement('.content').addClass(klass);
+		if (klass) this.faceboxEl.getElementsByClassName('content')[0].addClass(klass);
+
         if ($type(data) == 'string')
-            this.faceboxEl.getElement('.content').set('html', data);
+            //this.faceboxEl.getElement('.content').set('html', data);
+        	this.faceboxEl.getElementsByClassName('content')[0].set('html', data);
         else
-            this.faceboxEl.getElement('.content').adopt(data);
+            //this.faceboxEl.getElement('.content').adopt(data);
+        	this.faceboxEl.getElementsByClassName('content')[0].adopt(data);
 
         if(this.faceboxEl.getElement('.loading')) this.faceboxEl.getElement('.loading').destroy();
         var childs = this.faceboxEl.getElement('.body').getChildren();
@@ -145,7 +151,8 @@ var mooFacebox = new Class({
 			this.faceboxEl.getElement('.drag_container').setStyles({position:'relative',left:0,top:0});
 			this.faceboxEl.setStyle('display', 'none');
 		}.bind(this));
-        var contentEl = this.faceboxEl.getElement('.content');
+        //var contentEl = this.faceboxEl.getElement('.content');
+        var contentEl = this.faceboxEl.getElementsByClassName('content')[0];
         contentEl.set('class', '');
         contentEl.addClass('content');
 		this.opened=false;
@@ -172,22 +179,22 @@ var mooFacebox = new Class({
         $(document.body).adopt(this.faceboxEl);
 
         // preload images
-		var preload=new Array();
+		var preload = new Array();
         this.faceboxEl.getElements('.b:first, .bl, .br, .tl, .tr, .close, .loading').each(function(el)
-        {
-                // Get the background-image, usually something like: url("http://.../lalala.jpg")
-                var image_url = el.getStyle('background-image');
-                // Remove the "url(" and ")" part so we have only the url (and possibly quotes): http://.../lalala.jpg
-                image_url = image_url.replace('url(', '').replace(')', '');
-                // Remove the quotes, some browsers add it there to make it completely standard.
-                // I'm using regex here to replace ALL the quotes but it would be the same as twice image_url.replace('"', '');
-                image_url = image_url.replace(/"/g, '');
+		{
+			// Get the background-image, usually something like: url("http://.../lalala.jpg")
+			var image_url = el.getStyle('background-image');
+			// Remove the "url(" and ")" part so we have only the url (and possibly quotes): http://.../lalala.jpg
+			image_url = image_url.replace('url(', '').replace(')', '');
+			// Remove the quotes, some browsers add it there to make it completely standard.
+			// I'm using regex here to replace ALL the quotes but it would be the same as twice image_url.replace('"', '');
+			image_url = image_url.replace(/"/g, '');
 
-                preload.push(new Asset.image(image_url));
+			preload.push(new Asset.image(image_url));
         });
 
         this.faceboxEl.getElement('.close').addEvent('click', this.close.bind(this));
-		
+
 		// 9Tree: set e.stop() only when e.code == 27
 		// this allows you to write within facebox and still keeps the key event
         this.keydownHdlr = function(e) {
@@ -195,7 +202,7 @@ var mooFacebox = new Class({
             if (e.code == 27){
 	            e.stop();
 				this.close();
-			} 
+			}
         }.bind(this);
 
         this.image_types = this.options.image_types.join('|');
@@ -210,11 +217,11 @@ var mooFacebox = new Class({
 	            return false;
 	        }.bind(this));
 		}.bind(this));
-        
+
 
     },
 
-	// 9Tree: separated this code from within event click so it can be called 
+	// 9Tree: separated this code from within event click so it can be called
 	// from javascript without requiring the click event
 	openAnchor:function(el) {
 		el=$(el);
@@ -225,20 +232,20 @@ var mooFacebox = new Class({
 			klass = el.rel.match(/facebox\[\.(\w+)\]/);
 	        if (klass) klass = klass[1];
 		} else klass=false;
-		
+
 		this.open(el.href, {klass:klass, title:el.title});
 
         return false;
     },
-	
+
 	// opens a facebox directly from javascript
 	// also supports POST data
 	open:function(url, opts){
-		
+
 		opts = $merge(this.options.default_opts, opts);
 		this.setTitle(opts.title);
         this.loading();
-		
+
 		// div
         if (url.match(/#/)) {
             var target = url.replace('#','');
@@ -254,7 +261,7 @@ var mooFacebox = new Class({
 
         // ajax
         } else {
-            if(!opts.evalScripts){
+			if(!opts.evalScripts){
 				new Request({
 		            url: url,
 		            method: 'post',
@@ -288,7 +295,7 @@ var mooFacebox = new Class({
             xScroll = document.documentElement.scrollLeft;
         } else if (document.body) {// all other Explorers
             yScroll = document.body.scrollTop;
-            xScroll = document.body.scrollLeft;	
+            xScroll = document.body.scrollLeft;
         }
 
         return new Array(xScroll,yScroll);
@@ -309,4 +316,3 @@ var mooFacebox = new Class({
     }
 
 });
-
